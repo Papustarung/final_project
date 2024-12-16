@@ -43,6 +43,7 @@ class Shield:
 
         if distance == 0:
             return
+
         # Normalize the vector
         nx = dx / distance
         ny = dy / distance
@@ -50,16 +51,15 @@ class Shield:
         # Compute the velocity component along the normal
         dot_product = ball.vx * nx + ball.vy * ny
 
-        coefficient = 0.9
         if dot_product < 0:
             # Reflect the velocity vector
-            ball.vx -= 2 * dot_product * nx * coefficient
-            ball.vy -= 2 * dot_product * ny * coefficient
+            ball.vx -= 2 * dot_product * nx
+            ball.vy -= 2 * dot_product * ny
 
         # Ensure minimum deflection speed
-        min_velocity = 20.0  # Adjust this value based on gameplay needs
+        min_velocity = 3.0  # Adjust this value based on gameplay needs
         velocity = (ball.vx ** 2 + ball.vy ** 2) ** 0.5  # Current speed of the ball
-        if velocity * coefficient < min_velocity:
+        if velocity < min_velocity:
             # Scale the velocity to the minimum speed in the outward direction
             ball.vx = nx * min_velocity
             ball.vy = ny * min_velocity

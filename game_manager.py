@@ -22,8 +22,8 @@ class GameManager:
                 size=10,
                 x=random.randint(-self.CANVAS_WIDTH + 100, self.CANVAS_WIDTH),
                 y=random.randint(-self.CANVAS_HEIGHT, self.CANVAS_HEIGHT),
-                vx=random.randint(-30, 20),
-                vy=random.randint(-20, 30),
+                vx=random.randint(-3, 2),
+                vy=random.randint(-2, 3),
                 color=(random.randint(180, 255), 100, 100),
             )
             for _ in range(num_balls)
@@ -40,7 +40,7 @@ class GameManager:
         """Activate the shield if not on cooldown."""
         self.shield.activate(self.hazard_balls)
 
-    def __draw_border(self):
+    def draw_border(self):
         """Draw the game boundaries."""
         border_turtle = turtle.Turtle()
         border_turtle.hideturtle()
@@ -73,7 +73,7 @@ class GameManager:
 
         # Update hazard balls
         for i, ball in enumerate(self.hazard_balls):
-            ball.move(0.1)
+            ball.move()
 
             # Check for ball-to-ball collisions
             for j in range(i + 1, len(self.hazard_balls)):
@@ -82,7 +82,11 @@ class GameManager:
                     ball.bounce_off(other_ball)
 
             # Handle shield collisions
-            if self.shield.active and self.shield.is_near(ball) and ball.shield_collision_cd == 0:
+            if (
+                self.shield.active
+                and self.shield.is_near(ball)
+                and ball.shield_collision_cd == 0
+            ):
                 self.shield.bounce_off(ball)
                 ball.shield_collision_cd = self.SHIELD_COOLDOWN
 
@@ -98,6 +102,7 @@ class GameManager:
         if self.check_lose_condition():
             self.player.change_size(50)
             self.player.change_color((255,150,75))
+            self.refresh_screen()
             print("Game Over! You lost!")
             time.sleep(2)
             turtle.bye()
@@ -120,7 +125,7 @@ class GameManager:
         self.player.draw()
 
         # Draw the game boundary
-        self.__draw_border()
+        self.draw_border()
 
         # Update the turtle screen
         turtle.update()

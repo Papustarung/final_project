@@ -3,7 +3,7 @@ import math
 
 
 class Ball:
-    def __init__(self, size: float, x: float, y: float, vx: float, vy: float, color):
+    def __init__(self, size: float, x: float, y: float, vx: float, vy: float, color: any):
         self.size = size
         self.x = x
         self.y = y
@@ -16,6 +16,7 @@ class Ball:
         self.shield_collision_cd = 0
 
     def draw(self):
+        """Draw the filled ball"""
         turtle.penup()
         turtle.color(self.color)
         turtle.fillcolor(self.color)
@@ -25,18 +26,25 @@ class Ball:
         turtle.circle(self.size)
         turtle.end_fill()
 
-    def move(self, dt: float):
-        self.x += self.vx * dt
-        self.y += self.vy * dt
+    def move(self):
+        """
+        - Move the ball
+        - Handle collisions after hitting walls"""
+        self.x += self.vx
+        self.y += self.vy
 
         # Handle boundary collisions
-        if self.x + self.size > self.canvas_width or self.x - self.size < -self.canvas_width:
+        if (self.x + self.size > self.canvas_width
+                or self.x - self.size < -self.canvas_width):
             self.vx = -self.vx
-            self.x = max(-self.canvas_width + self.size, min(self.x, self.canvas_width - self.size))
+            self.x = max(-self.canvas_width + self.size,
+                         min(self.x, self.canvas_width - self.size))
 
-        if self.y + self.size > self.canvas_height or self.y - self.size < -self.canvas_height:
+        if (self.y + self.size > self.canvas_height
+                or self.y - self.size < -self.canvas_height):
             self.vy = -self.vy
-            self.y = max(-self.canvas_height + self.size, min(self.y, self.canvas_height - self.size))
+            self.y = max(-self.canvas_height + self.size,
+                         min(self.y, self.canvas_height - self.size))
 
     def distance(self, that) -> float:
         """Calculate the distance between two balls."""
@@ -48,6 +56,10 @@ class Ball:
         return self.distance(other) <= self.size + other.size
 
     def bounce_off(self, that):
+        """
+        - Bouncing when collide with other balls.
+        - Handling overlapping.
+        """
         dx, dy = that.x - self.x, that.y - self.y
         distance = self.distance(that)
 
