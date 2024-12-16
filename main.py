@@ -1,6 +1,6 @@
-from game_manager import GameManager
 import turtle
 import time
+from game_manager import GameManager
 
 def main():
     num_hazard_balls = 15

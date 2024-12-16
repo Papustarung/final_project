@@ -3,7 +3,8 @@ import math
 
 
 class Ball:
-    def __init__(self, size: float, x: float, y: float, vx: float, vy: float, color: any):
+    def __init__(self, size: float, x: float, y: float,
+                 vx: float, vy: float, color: any):
         self.size = size
         self.x = x
         self.y = y
@@ -29,19 +30,20 @@ class Ball:
     def move(self):
         """
         - Move the ball
-        - Handle collisions after hitting walls"""
+        - Handle collisions after hitting walls
+        """
         self.x += self.vx
         self.y += self.vy
 
         # Handle boundary collisions
         if (self.x + self.size > self.canvas_width
-                or self.x - self.size < -self.canvas_width):
+            or self.x - self.size < -self.canvas_width):
             self.vx = -self.vx
             self.x = max(-self.canvas_width + self.size,
                          min(self.x, self.canvas_width - self.size))
 
         if (self.y + self.size > self.canvas_height
-                or self.y - self.size < -self.canvas_height):
+            or self.y - self.size < -self.canvas_height):
             self.vy = -self.vy
             self.y = max(-self.canvas_height + self.size,
                          min(self.y, self.canvas_height - self.size))

@@ -6,15 +6,21 @@ class PlayerBall(Ball):
         self.lives = 1
 
     def move_automatically(self):
+        """Automatically move the player ball to the right."""
         self.x += self.vx  # Automatic horizontal movement
 
     def move_vertically(self, direction: int):
+        """
+        Move the player ball vertically
+        :param direction: 1 to move up, -1 to move down
+        """
         step = 10
         new_y = self.y + direction * step
         self.y = max(-self.canvas_height + self.size,
                      min(new_y, self.canvas_height - self.size))
 
     def check_collision(self, hazard_ball):
+        """Check if the player ball collides with a hazard ball."""
         # Returns False always, as PlayerBall cannot be hit
         dx = self.x - hazard_ball.x
         dy = self.y - hazard_ball.y
@@ -22,7 +28,9 @@ class PlayerBall(Ball):
         return distance <= self.size + hazard_ball.size
 
     def change_color(self, color):
+        """Change the color of the player ball."""
         self.color = color
 
     def change_size(self, size):
+        """Change the size of the player ball."""
         self.size = size

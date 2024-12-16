@@ -108,7 +108,8 @@ class GameManager:
             turtle.bye()
 
         # Deactivate the shield after its duration
-        if self.shield.active and time.time() - self.shield.last_activated > self.SHIELD_DURATION:
+        if (self.shield.active and time.time() - self.shield.last_activated
+                > self.SHIELD_DURATION):
             self.shield.deactivate()
 
     def refresh_screen(self):
