@@ -3,8 +3,23 @@ import math
 
 
 class Ball:
-    def __init__(self, size: float, x: float, y: float,
-                 vx: float, vy: float, color: any):
+    """
+    Represents a ball in the game with properties for size, position,
+    velocity, and color. Handles movement, boundary collisions, and
+    interactions with other balls.
+    """
+
+    def __init__(self, size: float, x: float, y: float, vx: float, vy: float,
+                 color: any):
+        """
+        Initialize a Ball object.
+        :param size: Radius of the ball.
+        :param x: Initial x-coordinate of the ball.
+        :param y: Initial y-coordinate of the ball.
+        :param vx: Velocity in the x-direction.
+        :param vy: Velocity in the y-direction.
+        :param color: Color of the ball.
+        """
         self.size = size
         self.x = x
         self.y = y
@@ -29,8 +44,8 @@ class Ball:
 
     def move(self):
         """
-        - Move the ball
-        - Handle collisions after hitting walls
+        Update the ball's position based on its velocity.
+        Handles boundary collisions and adjusts position accordingly.
         """
         self.x += self.vx
         self.y += self.vy
@@ -49,18 +64,27 @@ class Ball:
                          min(self.y, self.canvas_height - self.size))
 
     def distance(self, that) -> float:
-        """Calculate the distance between two balls."""
+        """
+        Calculate the distance between this ball and another ball.
+        :param that: The other ball to calculate the distance to.
+        :return: The distance between the two balls.
+        """
         dx, dy = that.x - self.x, that.y - self.y
         return math.sqrt(dx**2 + dy**2)
 
     def is_colliding(self, other) -> bool:
-        """Check if this ball is colliding with another."""
+        """
+        Check if this ball is colliding with another ball.
+        :param other: The other ball to check for collision.
+        :return: True if the balls are colliding, False otherwise.
+        """
         return self.distance(other) <= self.size + other.size
 
     def bounce_off(self, that):
         """
-        - Bouncing when collide with other balls.
-        - Handling overlapping.
+        Handle collision between this ball and another ball, updating
+        their velocities based on momentum conservation.
+        :param that: The other ball involved in the collision.
         """
         dx, dy = that.x - self.x, that.y - self.y
         distance = self.distance(that)

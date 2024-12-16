@@ -3,30 +3,39 @@ import time
 from game_manager import GameManager
 
 def main():
-    num_hazard_balls = 15
+    """Main function to initialize and run the game."""
+    num_hazard_balls = 10
+
+    # Initialize the game manager
     game = GameManager(num_hazard_balls)
+
+    # Setup game screen
     screen = game.screen
     screen.setup(width=1000, height=600)
+
+    # Preparation phase
     game.update()
     game.refresh_screen()
-    time.sleep(1)
+    time.sleep(1)  # Delay time for player to prepare
+
+    # Setup keyboard controls
     screen.listen()
-    screen.onkey(lambda: game.player.move_vertically(1), "Up")  # Move up
+    screen.onkey(lambda: game.player.move_vertically(1), "Up")     # Move up
     screen.onkey(lambda: game.player.move_vertically(-1), "Down")  # Move down
     screen.onkey(game.activate_shield, "space")
 
-    while True:
-        game.update()          # Update all positions
-        game.refresh_screen()  # Clear and redraw everything
+    try:
+        while True:
+            # Update all positions
+            game.update()
 
-        # Add a small delay to control the frame rate
-        time.sleep(0.01)
+            # Clear and redraw everything
+            game.refresh_screen()
 
-        # Exit the loop after winning the game
-        if game.check_win_condition():
-            break
-
-    turtle.done()  # Keep the screen open after the game ends
+            # Limit frame rate
+            time.sleep(0.01)
+    except turtle.Terminator:
+        print("--Game exited--")
 
 if __name__ == "__main__":
     main()

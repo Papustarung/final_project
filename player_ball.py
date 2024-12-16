@@ -1,7 +1,16 @@
 from ball import Ball
 
 class PlayerBall(Ball):
-    def __init__(self, size: float, x: float, y: float, vx: float, vy: float, color: str):
+    """
+    A class representing the player-controlled ball.
+    Inherits from the Ball class.
+    """
+
+    def __init__(self, size: float, x: float, y: float, vx: float, vy: float,
+                 color: str):
+        """
+        Initialize the PlayerBall object.
+        """
         super().__init__(size, x, y, vx, vy, color)
         self.lives = 1
 
@@ -20,8 +29,10 @@ class PlayerBall(Ball):
                      min(new_y, self.canvas_height - self.size))
 
     def check_collision(self, hazard_ball):
-        """Check if the player ball collides with a hazard ball."""
-        # Returns False always, as PlayerBall cannot be hit
+        """
+        Check if the player ball collides with a hazard ball.
+        Returns False always, as PlayerBall cannot be hit.
+        """
         dx = self.x - hazard_ball.x
         dy = self.y - hazard_ball.y
         distance = (dx**2 + dy**2)**0.5

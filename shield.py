@@ -2,7 +2,16 @@ import turtle
 import time
 
 class Shield:
+    """
+    Represents a shield around the player ball that can deflect hazard balls.
+    """
+
     def __init__(self, radius: float, owner):
+        """
+        Initialize the Shield object.
+        :param radius: Radius of the shield.
+        :param owner: The player ball owning this shield.
+        """
         self.radius = radius
         self.owner = owner
         self.active = False
@@ -10,7 +19,7 @@ class Shield:
         self.cooldown = 1.0  # Seconds
         self.duration = 0.5  # Seconds
 
-    def activate(self, balls):
+    def activate(self):
         """Activate the shield if it is not on cooldown."""
         # Check if the shield is ready
         if time.time() - self.last_activated < self.cooldown:
@@ -28,14 +37,20 @@ class Shield:
         self.active = False
 
     def is_near(self, ball):
-        """Check if a ball is near the shield for deflection."""
+        """
+        Check if a ball is near the shield for deflection.
+        :param ball: The hazard ball to check.
+        """
         dx = ball.x + ball.size - self.owner.x
         dy = ball.y + ball.size - self.owner.y
         distance = (dx**2 + dy**2)**0.5
         return distance <= self.radius + ball.size
 
     def bounce_off(self, ball):
-        """Deflect a ball outward from the shield's center."""
+        """
+        Deflect a ball outward from the shield's center.
+        :param ball: The hazard ball to deflect.
+        """
         # Calculate the vector from the shield center to the ball
         dx = ball.x - self.owner.x
         dy = ball.y - self.owner.y
@@ -77,4 +92,3 @@ class Shield:
         turtle.begin_fill()
         turtle.circle(self.radius)
         turtle.end_fill()
-

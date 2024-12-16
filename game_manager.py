@@ -7,7 +7,11 @@ from shield import Shield
 
 
 class GameManager:
-    """Class for controlling the game flow"""
+    """
+    Manages the overall game, including the player ball, hazard balls,
+    shield interactions, and game logic.
+    """
+
     CANVAS_WIDTH = 400
     CANVAS_HEIGHT = 150
     SHIELD_DURATION = 0.5  # Duration the shield stays active (in seconds)
@@ -15,7 +19,10 @@ class GameManager:
     WIN_CONDITION_X = 400  # Player must cross this x-coordinate to win
 
     def __init__(self, num_balls: int):
-        """Initialize the game manager."""
+        """
+        Initialize the game manager.
+        :param num_balls: Number of hazard balls in the game.
+        """
         turtle.colormode(255)
         self.hazard_balls = [
             Ball(
@@ -38,7 +45,7 @@ class GameManager:
 
     def activate_shield(self):
         """Activate the shield if not on cooldown."""
-        self.shield.activate(self.hazard_balls)
+        self.shield.activate()
 
     def draw_border(self):
         """Draw the game boundaries."""
@@ -56,18 +63,27 @@ class GameManager:
             border_turtle.left(90)
 
     def check_win_condition(self) -> bool:
-        """Check if the player has won the game."""
+        """
+        Check if the player has crossed the winning boundary.
+        :return: True if the player has won, False otherwise.
+        """
         return self.player.x > self.WIN_CONDITION_X
 
     def check_lose_condition(self) -> bool:
-        """Check if the player collides with any hazard ball."""
+        """
+        Check if the player ball collides with any hazard ball.
+        :return: True if the player has lost, False otherwise.
+        """
         for ball in self.hazard_balls:
             if self.player.check_collision(ball):
                 return True
         return False
 
     def update(self):
-        """Update all game elements."""
+        """
+        Update the game state, including ball movements, collisions,
+        and win/lose conditions.
+        """
         # Move player ball
         self.player.move_automatically()
 
